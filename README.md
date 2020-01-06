@@ -1,7 +1,7 @@
 # PostIt
 An online platform to showcase your ideas.
 
-##Installation Setup:
+## Installation Setup:
 1. Clone the repository.<br/>
 `git clone https://github.com/ameyanrd/PostIt`
 2. Setup your virtual environment and activate it.
