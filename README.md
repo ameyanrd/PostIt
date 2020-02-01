@@ -11,3 +11,5 @@ source ~/.virtualenvs/postit/bin/activate
 ```
 3. Install Django with pip
 `python -m pip install Django`
+4. Install other necessary dependencies
+`pip install six`
