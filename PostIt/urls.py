@@ -16,9 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
+from django.contrib.auth.models import User
+from datetime import datetime, timedelta
+import pytz
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
+# delete the users from the database who didn't activate their accounts
+ist = pytz.timezone('Asia/Kolkata')
+time_after_diff = ist.localize(datetime.now() - timedelta(hours=2))
+User.objects.filter(is_active=False).filter(date_joined__lt=time_after_diff).delete()

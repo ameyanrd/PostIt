@@ -26,7 +26,7 @@ def signup(request):
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your blog account.'
-            message = render_to_string('acc_active_email.html', {
+            message = render_to_string('registration/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -38,10 +38,10 @@ def signup(request):
             )
             print(email)
             email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
+            return HttpResponse('Please confirm your email address to complete the registration within 2 hours.')
     else:
         form = SignupForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 def activate(request, uidb64, token):
     try:
