@@ -13,10 +13,11 @@ source ~/.virtualenvs/postit/bin/activate
 `python -m pip install Django`
 
 4. Open the PostIt folder and migrate all files
-`python manage.py makemirations
-python manage.py migrate`
+```python manage.py makemirations
+python manage.py migrate
+```
 
 5. Run the server
-`python manage.py runserver`
+```python manage.py runserver```
 
 6. Start the app at [http://127.0.0.1:8000](http://127.0.0.1:8000)
