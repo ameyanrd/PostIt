@@ -1,0 +1,19 @@
+{% extends "account/base.html" %}
+{% block body_block %}
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome to the Djungle !</h1>
+    {% if user.is_authenticated %}
+        <h2>Hello {{ user.username }}</h2>
+      <h3> Your details</h3><br>
+      <p>{{ user.username }} </p><br>
+      <p>{{ user.userprofileinfo.name }} </p><br>
+      <p>{{ user.userprofileinfo.about }} </p><br>
+      <p>{{ user.userprofileinfo.age }} </p><br>
+      <p>{{ user.userprofileinfo.email }} </p><br>
+    {% else %}
+        <h2>Register or Login if you'd like to</h2>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
