@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import UserForm, UserProfileInfoForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -17,7 +17,7 @@ def enter(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return render(request, 'main/index.html')
+    return redirect("blog:index")
 
 
 def register(request):
@@ -53,12 +53,8 @@ def user_login(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user:
-            if user.is_active:
-                login(request, user)
-                return render(request, 'main/index.html')
-            else:
-                user = None
-                return render(request, 'account/login.html', {'error_message': "Your account was inactive."})
+            login(request, user)
+            return redirect("blog:index")
         else:
             user = None
             return render(request, 'account/login.html', {'error_message': "Invalid login details given.\nLogin failed."})
