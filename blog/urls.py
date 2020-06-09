@@ -12,8 +12,8 @@ urlpatterns = [
     url(r'^enter', views.enter, name='enter'),
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
-    # url(r'^account/$', views.index, name='account'),
-    # url(r'^blogs/$', views.index, name='blogs'),
+    url(r'^account/$', views.account, name='account'),
+    url(r'^blogs/$', views.blogs, name='blogs'),
 
     # url(r'^$',views.index,name='index'),
     # url(r'^special/',views.special,name='special'),

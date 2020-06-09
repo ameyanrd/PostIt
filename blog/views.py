@@ -6,6 +6,14 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
+def account(request):
+    return HttpResponse('Your account')
+
+
+def blogs(request):
+    return HttpResponse('Your blogs')
+
+
 def index(request):
     return render(request, 'main/index.html')
 

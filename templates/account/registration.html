@@ -7,7 +7,7 @@
       {% if registered %}
         <h2>Thank you for registering!</h2><br>
         <div style="align:center">
-          <a class="btn btn-primary btn-lg" href="{% url 'blog:index'%}" role="button">Go Back</a>
+          <a class="btn btn-primary btn-lg" href="{% url 'blog:login'%}" role="button">Continue</a>
         </div>
       {% else %}
         {% if user_errors or profile_errors %}
