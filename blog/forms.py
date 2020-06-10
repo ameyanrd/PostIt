@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserProfileInfo
+from .models import UserProfileInfo, Post
 from django.contrib.auth.models import User
 
 
@@ -17,3 +17,8 @@ class UserProfileInfoForm(forms.ModelForm):
         model = UserProfileInfo
         fields = ('name', 'about', 'age', 'email')
 
+class PostForm(forms.ModelForm):
+
+    class Meta():
+        model = Post
+        fields = "__all__"

@@ -24,7 +24,7 @@ class Tag(models.Model):
 class Post(models.Model):
     post_name = models.CharField(max_length=100)
     post_user_id = models.ForeignKey(UserProfileInfo, on_delete=models.CASCADE)
-    date_created = models.DateField()
+    date_created = models.CharField(max_length=100)
     # post_location = models.CharField(max_length=100)
     post_content = models.TextField(max_length=5000)
     '''

@@ -1,18 +1,57 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
-from .forms import UserForm, UserProfileInfoForm
+from .forms import UserForm, UserProfileInfoForm, PostForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from .models import Post, UserProfileInfo
+from django.contrib.auth.models import User
 
 
 def index(request):
     return render(request, 'main/index.html')
 
+def display_posts(request, post_no):
+    try:
+        post = Post.objects.get(pk=post_no)
+        user = User.objects.get(username=post.post_user_id)
+        userprofile = UserProfileInfo.objects.get(pk=user.pk)
+    except Post.DoesNotExist:
+        raise Http404("Post does not exist!")
+    return render(request, 'main/display_post.html', {'post': post, 'user':userprofile})
+
 
 def enter(request):
     return render(request, 'account/initial.html')
 
+
+def my_blogs(request):
+    if request.user.is_authenticated:
+        posts = Post.objects.all()
+        return render(request, 'main/my_blogs.html', {'posts': posts})
+    else:
+        redirect("blog:index")
+
+def write_post(request):
+    if request.method == 'POST':
+        # print(datetime.now())
+        post_form = PostForm({'post_name': request.POST.get('title'),
+                              'post_user_id': request.user.pk,
+                              'date_created': str(datetime.now()),
+                              'post_content': request.POST.get('myeditablediv')})
+        # print(post_form.errors)
+        if post_form.is_valid():
+            new_post = post_form.save()
+            return redirect("/" + str(new_post.pk))
+        else:
+            return HttpResponse("Invalid Form!")
+
+    else:
+        if request.user.is_authenticated:
+            return render(request, 'main/write_post.html')
+        else:
+            redirect("blog:index")
 
 @login_required
 def user_logout(request):
@@ -62,4 +101,3 @@ def user_login(request):
     else:
         user = None
         return render(request, 'account/login.html', {'error_message': None})
-

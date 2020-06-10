@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1 class="display-4">Welcome!</h1>
+    <p class="lead">Your Posts...</p>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-md-6">
+        <p class="lead" style="align:center;">
+          <a class="btn btn-primary btn-lg" href="{% url 'blog:write_post' %}" role="button">Write a new post </a>
+        </p>
+      </div>
+    </div>
+    <hr>
+    <div>
+        <h2 class="display-4">All Blogs</h2>
+        {% for post in posts %}
+            {{ post.id }} <a href="/{{post.id}}">{{ post.post_name }}</a> by {{post.post_user_id}}.<br />
+        {% endfor %}
+    </div>
+  </div>
+{% endblock %}

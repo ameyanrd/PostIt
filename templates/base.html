@@ -32,7 +32,7 @@
           {% if user.is_authenticated %}
             {# Should have been - if user - #}
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="{% url 'blog:index' %}">My blogs</a>
+                <a class="nav-link js-scroll-trigger" href="{% url 'blog:my_blogs' %}">My blogs</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="{% url 'blog:index' %}">My account</a>
