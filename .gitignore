@@ -1,3 +1,10 @@
-PostIt_database.sqlite3
 __pycache__
 .idea
+
+# DB
+*.sqlite3
+
+# django migrations
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
