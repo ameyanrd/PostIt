@@ -13,7 +13,8 @@ source ~/.virtualenvs/postit/bin/activate
 `python -m pip install Django`
 
 4. Open the PostIt folder and migrate all files
-```python manage.py makemirations
+```
+python manage.py makemirations
 python manage.py migrate
 ```
 
@@ -21,3 +22,10 @@ python manage.py migrate
 ```python manage.py runserver```
 
 6. Start the app at [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+7. Alternatively, to use Gunicorn, run the following commands:
+```
+python -m pip install gunicorn
+pip install dj-static
+gunicorn PostIt.wsgi
+```
