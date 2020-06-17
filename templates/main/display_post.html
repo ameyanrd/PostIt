@@ -5,8 +5,13 @@
 <body>
 <div class="jumbotron">
     <div class="container">
-        <div>
-            <h1> {{ post.post_name }} </h1>
+        <div class="row">
+            <div class="col-6">
+                <h1>{{ post.post_name }}</h1>
+            </div>
+            <div class="col-6" style="text-align:right;">
+                <a class="btn btn-warning" href="/comments/{{post.id}}/">View comments</a>
+            </div>
         </div>
         <br>
         <h4>

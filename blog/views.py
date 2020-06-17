@@ -1,12 +1,12 @@
 from datetime import datetime
 from django.http import Http404
 from django.shortcuts import render, redirect
-from .forms import UserForm, UserProfileInfoForm, PostForm
+from .forms import UserForm, UserProfileInfoForm, PostForm, CommentForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Post, UserProfileInfo
+from .models import Post, UserProfileInfo, PostComment
 from django.contrib.auth.models import User
 
 
@@ -18,14 +18,29 @@ def display_posts(request, post_no):
     try:
         post = Post.objects.get(pk=post_no)
         user = User.objects.get(username=post.post_user_id)
-        userprofile = UserProfileInfo.objects.get(pk=user.pk)
+        user_profile = UserProfileInfo.objects.get(pk=user.pk)
     except Post.DoesNotExist:
         raise Http404("Post does not exist!")
-    return render(request, 'main/display_post.html', {'post': post, 'user':userprofile})
+    return render(request, 'main/display_post.html', {'post': post, 'user': user_profile})
+
+
+def display_comments(request, post_no):
+    try:
+        post = Post.objects.get(pk=post_no)
+        all_comments = PostComment.objects.all().filter(post_id=post)
+        post_name = post.post_name
+    except PostComment.DoesNotExist or Post.DoesNotExist:
+        all_comments = None
+        post_no = None
+        post_name = None
+    return render(request, 'main/all_comments.html', {'all_comments': all_comments, 'post_id': post_no, 'post_name': post_name})
 
 
 def enter(request):
-    return render(request, 'account/initial.html')
+    if request.user.is_authenticated:
+        return render(request, 'main/index.html')
+    else:
+        return render(request, 'account/initial.html')
 
 
 def profile(request):
@@ -61,6 +76,27 @@ def write_post(request):
             return render(request, 'main/write_post.html')
         else:
             redirect("blog:index")
+
+
+def write_comment(request, post_no):
+    if request.method == 'POST':
+        comment_form = CommentForm({'post_id': post_no,
+                              'user_id': request.user.pk,
+                              'comment': request.POST.get('comment')})
+        if comment_form.is_valid():
+            new_comment = comment_form.save()
+            return redirect("/" + str(post_no))
+        else:
+            return HttpResponse("Invalid Form!")
+
+    else:
+        if request.user.is_authenticated:
+            post = Post.objects.get(pk=post_no)
+            post_name = post.post_name
+            return render(request, 'main/write_comment.html', {'post_name': post_name})
+        else:
+            redirect("blog:index")
+
 
 @login_required
 def user_logout(request):

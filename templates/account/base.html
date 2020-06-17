@@ -27,8 +27,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto my-2 my-lg-0">
-          {% if not user %}
-            {# Should have been - if user - #}
+          {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="{% url 'blog:my_blogs' %}">My blogs</a>
             </li>
