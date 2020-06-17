@@ -4,7 +4,7 @@
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4">Welcome!</h1>
-    <p class="lead">Login or register to continue.</p>
+    <p class="lead">Login or register to continue. </p>
     <br>
     <br>
     <div class="row">
@@ -22,6 +22,12 @@
           Register, if you are a new user
         </p>
       </div>
+      <br>
+      <br>
+    </div>
+    <br>
+    <div style="text-align:right">
+      <a class="btn btn-danger" href="{% url 'blog:index' %}">Go Back</a>
     </div>
   </div>
 {% endblock %}

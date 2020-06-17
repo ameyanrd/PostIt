@@ -3,16 +3,25 @@
 
 {% block content %}
 <body>
-    <div style="background-color: #ffffff">
-        <h1> {{ post.post_name }} </h1>
+<div class="jumbotron">
+    <div class="container">
+        <div>
+            <h1> {{ post.post_name }} </h1>
+        </div>
+        <br>
+        <h4>
+            {% autoescape off %}
+                {{ post.post_content }}
+            {% endautoescape %}
+        </h4>
+        <br>
+        <div style="background-color: #ffffff;">
+            By {{ user.name }}, written on {{ post.date_created }}
+        </div>
+        <br>
+        <a class="btn btn-success" href="{% url 'blog:index' %}">Back</a>
     </div>
-    <div style="background-color:#ffffff">
-        {% autoescape off %}
-            {{ post.post_content }}
-        {% endautoescape %}
-    </div>
-    <div style="background-color: #ffffff">
-        By {{ user.name }}, written on {{ post.date_created }}
-    </div>
+</div>
+
 </body>
 {% endblock %}

@@ -3,23 +3,39 @@
 
 {% block content %}
   <div class="jumbotron">
-    <h1 class="display-4">Welcome!</h1>
-    <p class="lead">Your Posts...</p>
-    <br>
-    <br>
     <div class="row">
-      <div class="col-md-6">
-        <p class="lead" style="align:center;">
+      <div class="col-md-12">
+        <p class="lead" style="text-align:right;">
           <a class="btn btn-primary btn-lg" href="{% url 'blog:write_post' %}" role="button">Write a new post </a>
         </p>
       </div>
     </div>
-    <hr>
+    <br>
     <div>
-        <h2 class="display-4">All Blogs</h2>
-        {% for post in posts %}
-            {{ post.id }} <a href="/{{post.id}}">{{ post.post_name }}</a> by {{post.post_user_id}}.<br />
-        {% endfor %}
+        <h1>My Posts</h1>
+        <br>
+        {% if my_posts %}
+            {% for post in my_posts %}
+                <h4> > <a href="/{{post.id}}"><u>{{ post.post_name }}</u></a></h4>
+                <div style="text-align:right;"> By {{ post.post_user_id }}, written on {{ post.date_created }}</div><br>
+            {% endfor %}
+        {% else %}
+            <h5>No posts found!!</h5>
+        {% endif %}
+        <br>
+    </div>
+    <div>
+        <h1>All Posts</h1>
+        <br>
+        {% if all_posts %}
+            {% for post in all_posts %}
+                <h4> > <a href="/{{post.id}}"><u>{{ post.post_name }}</u></a></h4>
+                <div style="text-align:right;"> By {{ post.post_user_id }}, written on {{ post.date_created }}</div><br>
+            {% endfor %}
+        {% else %}
+            <h5>No posts found!!</h5>
+        {% endif %}
+        <br>
     </div>
   </div>
 {% endblock %}

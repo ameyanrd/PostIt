@@ -6,8 +6,16 @@
     <div class="jumbotron">
       {% if registered %}
         <h2>Thank you for registering!</h2><br>
-        <div style="align:center">
-          <a class="btn btn-primary btn-lg" href="{% url 'blog:index'%}" role="button">Go Back</a>
+      <div class="row">
+        <div class="col-md-6">
+          <div style="text-align:left;">
+            <a class="btn btn-primary btn-lg" href="{% url 'blog:index'%}" role="button">Go Back</a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div style="text-align:left;">
+            <a class="btn btn-primary btn-lg" href="{% url 'blog:login'%}" role="button">Login now</a>
+          </div>
         </div>
       {% else %}
         {% if user_errors or profile_errors %}
@@ -73,8 +81,10 @@
           <button type="submit" class="btn btn-success" value="Register">Register</button>
         </div>
         </form>
-
         <br>
+       <div style="text-align:right">
+          <a class="btn btn-danger" href="{% url 'blog:index' %}">Go Back</a>
+        </div>
       {% endif %}
     </div>
   </div>

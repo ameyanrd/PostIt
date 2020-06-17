@@ -11,20 +11,25 @@
     plugins: '',
     toolbar: '',
     toolbar_mode: 'floating',
-    skin: 'oxide-dark' 
+    skin: 'oxide-dark'
   });
   </script>
 </head>
 <body>
-    <h1 style="color:white">Write a new blog.</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="title" style="color:white"><b>Title: </b></label>
-        <input type="text" id="title" name="title"><br>
-        <div id="myeditablediv">Click here to edit!</div> <br/>
-        <div style="align:center">
-          <button type="submit" class="btn btn-success" value="Publish">Publish</button>
-        </div>
-    </form>
+  <div class="jumbotron">
+      <div class="container">
+        <h2>Write a new blog...</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label style="font-size:30px;" for="title"><b>Title: </b>&nbsp</label>
+            <input type="text" id="title" name="title"><br>
+            <br>
+            <div id="myeditablediv">Click here to edit!</div> <br/>
+            <div style="align:center">
+              <button type="submit" class="btn btn-success" value="Publish">Publish</button>
+            </div>
+        </form>
+      </div>
+  </div>
   </body>
 {% endblock %}

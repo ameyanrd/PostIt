@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="jumbotron">
+     {% if user_profile %}
+        <h2 style="text-align:center;">My profile</h2>
+        <div class="row">
+          <div class="col-md-12">
+              <h4><i><b>Name</b></i> : {{ user_profile.name }}</h4>
+          </div>
+          <div class="col-md-12">
+              <h4><i><b>Username</b></i> : {{ user_profile.user.username }}</h4>
+          </div>
+          <div class="col-md-12">
+              <h4><i><b>Age</b></i> : {{ user_profile.age }}</h4>
+          </div>
+          <div class="col-md-12">
+              <h4><i><b>Email Id</b></i> : {{ user_profile.email }}</h4>
+          </div>
+          <div class="col-md-12">
+              <h4><i><b>About Me</b></i> : {{ user_profile.about }}</h4>
+          </div>
+        </div>
+     {% else %}
+        <h3>User doesn't exist!!</h3>
+     {% endif %}
+  </div>
+{% endblock %}

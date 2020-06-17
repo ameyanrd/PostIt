@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>{% block title %}{% endblock %}</title>
+  <title>PostIt - Post your blog here</title>
   <link rel="shortcut icon" href="{% static 'blog/img/favicon.png' %}" />
   <link href="{% static 'blog/vendor/fontawesome-free/css/all.css' %}" rel="stylesheet" type="text/css">
 
@@ -35,7 +35,7 @@
                 <a class="nav-link js-scroll-trigger" href="{% url 'blog:my_blogs' %}">My blogs</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="{% url 'blog:index' %}">My account</a>
+                <a class="nav-link js-scroll-trigger" href="{% url 'blog:profile' %}">My account</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="{% url 'blog:logout' %}">Logout</a>

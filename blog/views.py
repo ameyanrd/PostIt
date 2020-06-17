@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.http import Http404
 from django.shortcuts import render, redirect
 from .forms import UserForm, UserProfileInfoForm, PostForm
 from django.contrib.auth import authenticate, login, logout
@@ -11,6 +12,7 @@ from django.contrib.auth.models import User
 
 def index(request):
     return render(request, 'main/index.html')
+
 
 def display_posts(request, post_no):
     try:
@@ -26,21 +28,28 @@ def enter(request):
     return render(request, 'account/initial.html')
 
 
+def profile(request):
+    if request.user.is_authenticated:
+        user_profile = UserProfileInfo.objects.get(pk=request.user.id)
+        return render(request, 'account/profile.html', {'user_profile': user_profile})
+    else:
+        raise Http404("Login first!")
+
+
 def my_blogs(request):
     if request.user.is_authenticated:
-        posts = Post.objects.all()
-        return render(request, 'main/my_blogs.html', {'posts': posts})
+        all_posts = Post.objects.all().order_by('-date_created')
+        my_posts = Post.objects.filter(post_user_id=request.user.id).order_by('-date_created')
+        return render(request, 'main/my_blogs.html', {'all_posts': all_posts, 'my_posts': my_posts})
     else:
         redirect("blog:index")
 
+
 def write_post(request):
     if request.method == 'POST':
-        # print(datetime.now())
         post_form = PostForm({'post_name': request.POST.get('title'),
                               'post_user_id': request.user.pk,
-                              'date_created': str(datetime.now()),
                               'post_content': request.POST.get('myeditablediv')})
-        # print(post_form.errors)
         if post_form.is_valid():
             new_post = post_form.save()
             return redirect("/" + str(new_post.pk))
@@ -95,9 +104,7 @@ def user_login(request):
             login(request, user)
             return redirect("blog:index")
         else:
-            user = None
             return render(request, 'account/login.html', {'error_message': "Invalid login details given.\nLogin failed."})
 
     else:
-        user = None
         return render(request, 'account/login.html', {'error_message': None})

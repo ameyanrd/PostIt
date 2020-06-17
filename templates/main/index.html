@@ -3,9 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <title>{% block title %}PostIt - Post your blog here{% endblock %}</title>
-</head>
 <body id="page-top">
 {% block content %}
   <header class="masthead">
@@ -25,11 +22,6 @@
               <div class="col-lg-10 align-self-end">
                   <h1 class="text-white font-weight-bold">PostIt</h1><br>
                   <h3 class="text-uppercase text-white font-weight-bold">Your Favorite Blog publishing platform</h3>
-                  {% block auth_content %}
-                      {% if user.is_authenticated %}
-                          <p>{{ user.username }}</p>
-                      {% endif %}
-                  {% endblock %}
                   <hr class="divider my-4">
               </div>
               <div class="col-lg-8 align-self-baseline">
@@ -38,6 +30,7 @@
               </div>
           </div>
       </div>
+     </div>
   </header>
 
   <section class="page-section bg-primary" id="about">
