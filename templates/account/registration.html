@@ -1,0 +1,91 @@
+{% extends "account/base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="container" style="padding:5px;">
+    <div class="jumbotron">
+      {% if registered %}
+        <h2>Thank you for registering!</h2><br>
+      <div class="row">
+        <div class="col-md-6">
+          <div style="text-align:left;">
+            <a class="btn btn-primary btn-lg" href="{% url 'blog:index'%}" role="button">Go Back</a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div style="text-align:left;">
+            <a class="btn btn-primary btn-lg" href="{% url 'blog:login'%}" role="button">Login now</a>
+          </div>
+        </div>
+      {% else %}
+        {% if user_errors or profile_errors %}
+          <div class="alert alert-danger alert-dismissible" style="padding:10px;">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error!</strong><br>
+            {% if user_errors %}
+              {% for key, value in user_errors.items %}
+                <strong>{{ key.capitalize }}</strong>
+                <p>{{ value }}</p>
+              {% endfor %}
+            {% endif %}
+
+            {% if profile_errors %}
+              {% for key, value in profile_errors.items %}
+                <strong>{{ key.capitalize }}</strong>
+                <p>{{ value }}</p>
+              {% endfor %}
+            {% endif %}
+            </div>
+        {% endif %}
+        <h3>Register here! Just fill out this form.</h3>
+        <br>
+        <form enctype="multipart/form-data" method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-6">
+              <h6>Username</h6>
+              <i>{{ user_form.username }}</i>
+            </div>
+
+            <div class="col-6">
+              <h6>Password</h6>
+              <i>{{ user_form.password }}</i>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-6">
+              <h6>Name</h6>
+              <i>{{ profile_form.name }}</i>
+            </div>
+
+            <div class="col-6">
+              <h6>About</h6>
+              <i>{{ profile_form.about }}</i>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-6">
+              <h6>Age</h6>
+              <i>{{ profile_form.age }}</i>
+            </div>
+
+            <div class="col-6">
+              <h6>Email</h6>
+              <i>{{ profile_form.email }}</i>
+            </div>
+          </div>
+          <br>
+        <div style="align:center">
+          <button type="submit" class="btn btn-success" value="Register">Register</button>
+        </div>
+        </form>
+        <br>
+       <div style="text-align:right">
+          <a class="btn btn-danger" href="{% url 'blog:index' %}">Go Back</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

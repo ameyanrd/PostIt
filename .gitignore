@@ -1,0 +1,10 @@
+__pycache__
+.idea
+
+# DB
+*.sqlite3
+
+# django migrations
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py

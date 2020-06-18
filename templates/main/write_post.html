@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+  <script src="https://cdn.tiny.cloud/1/ekh8jy81k5ztq1libhvgt3acs74lygc7zt5rlu2rfr9ul4og/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script type="text/javascript">
+    tinymce.init({
+    selector: '#myeditablediv',
+    plugins: '',
+    toolbar: '',
+    toolbar_mode: 'floating',
+    skin: 'oxide-dark'
+  });
+  </script>
+</head>
+<body>
+  <div class="jumbotron">
+      <div class="container">
+        <h3>Write a new blog...</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <label style="font-size:30px;" for="title"><b>Title: </b>&nbsp</label>
+            <input type="text" id="title" name="title"><br>
+            <br>
+            <label style="font-size:30px;" for="tag"><b>Tag: </b>&nbsp</label>
+            <input type="text" id="tag" name="tag"><br>
+            <br>
+            <div id="myeditablediv">Click here to edit!</div> <br/>
+            <div style="align:center">
+              <button type="submit" class="btn btn-success" value="Publish">Publish</button>
+            </div>
+        </form>
+      </div>
+  </div>
+  </body>
+{% endblock %}

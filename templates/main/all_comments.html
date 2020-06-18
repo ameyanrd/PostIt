@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="jumbotron">
+    <div class="row">
+       <div class="col-md-6">
+        <h1>Comments</h1>
+      </div>
+      <div class="col-md-6">
+        <p class="lead" style="text-align:right;">
+          <a class="btn btn-primary btn-lg" href="/write_comment/{{post_id}}/" role="button">Write a new comment </a>
+        </p>
+      </div>
+    </div>
+    <br>
+    <div>
+        <br>
+        {% if all_comments %}
+            {% for comments in all_comments %}
+                <div style="border-style:solid; border-width:thin; padding:10px;">
+                    <h5>> {{ comments.comment }}</h5>
+                    <div style="text-align:right;"> By {{ comments.user_id }}, written on {{ comments.date_created }}</div><br>
+                    {% if user == comments.user_id %}
+                        <div style="text-align:right;" >
+                            <a class="btn btn-danger" href="/delete_comment/{{ comments.id }}/" >Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <br>
+                <br>
+            {% endfor %}
+        {% else %}
+            <h5>No comments found!!</h5>
+        {% endif %}
+        <br>
+    </div>
+  </div>
+{% endblock %}

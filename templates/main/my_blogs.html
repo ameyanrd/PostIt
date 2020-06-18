@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="jumbotron">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead" style="text-align:right;">
+          <a class="btn btn-primary btn-lg" href="{% url 'blog:write_post' %}" role="button">Write a new post </a>
+        </p>
+      </div>
+    </div>
+    <br>
+    <div>
+        <h1>My Posts</h1>
+        <br>
+        {% if my_posts %}
+            {% for post in my_posts %}
+                 <div style="border-style:solid; border-width:thin; padding:10px;">
+                    <h4> > <a href="/{{post.id}}"><u>{{ post.post_name }}</u></a></h4>
+                    <div style="text-align:right;"> By {{ post.post_user_id }}, written on {{ post.date_created }}</div><br>
+                 </div>
+                <br><br>
+            {% endfor %}
+        {% else %}
+            <h5>No posts found!!</h5>
+        {% endif %}
+        <br>
+    </div>
+    <div>
+        <h1>All Posts</h1>
+        <br>
+        {% if all_posts %}
+            {% for post in all_posts %}
+                <div style="border-style:solid; border-width:thin; padding:10px;">
+                    <h4> > <a href="/{{post.id}}"><u>{{ post.post_name }}</u></a></h4>
+                    <div style="text-align:right;"> By {{ post.post_user_id }}, written on {{ post.date_created }}</div><br>
+                </div>
+                <br><br>
+            {% endfor %}
+        {% else %}
+            <h5>No posts found!!</h5>
+        {% endif %}
+        <br>
+    </div>
+  </div>
+{% endblock %}
