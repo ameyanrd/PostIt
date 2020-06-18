@@ -18,8 +18,17 @@
         <br>
         {% if all_comments %}
             {% for comments in all_comments %}
-                <h5>> {{ comments.comment }}</h5>
-                <div style="text-align:right;"> By {{ comments.user_id }}, written on {{ comments.date_created }}</div><br>
+                <div style="border-style:solid; border-width:thin; padding:10px;">
+                    <h5>> {{ comments.comment }}</h5>
+                    <div style="text-align:right;"> By {{ comments.user_id }}, written on {{ comments.date_created }}</div><br>
+                    {% if user == comments.user_id %}
+                        <div style="text-align:right;" >
+                            <a class="btn btn-danger" href="/delete_comment/{{ comments.id }}/" >Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <br>
+                <br>
             {% endfor %}
         {% else %}
             <h5>No comments found!!</h5>

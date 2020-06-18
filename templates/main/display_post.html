@@ -9,19 +9,28 @@
             <div class="col-6">
                 <h1>{{ post.post_name }}</h1>
             </div>
-            <div class="col-6" style="text-align:right;">
-                <a class="btn btn-warning" href="/comments/{{post.id}}/">View comments</a>
-            </div>
+            {% if user == user_profile.user %}
+                <div class="col-4" style="text-align:right;">
+                    <a class="btn btn-warning" href="/comments/{{post.id}}/">View comments</a>
+                </div>
+                <div class="col-2" style="text-align:right;">
+                    <a class="btn btn-danger" href="/delete_post/{{post.id}}/">Delete post</a>
+                </div>
+            {% else %}
+                <div class="col-6" style="text-align:right;">
+                    <a class="btn btn-warning" href="/comments/{{post.id}}/">View comments</a>
+                </div>
+            {% endif %}
         </div>
         <br>
-        <h4>
+        <h4 style="background-color: #ffffff; padding:5px;">
             {% autoescape off %}
                 {{ post.post_content }}
             {% endautoescape %}
         </h4>
         <br>
-        <div style="background-color: #ffffff;">
-            By {{ user.name }}, written on {{ post.date_created }}
+        <div>
+            By {{ user_profile.name }}, written on {{ post.date_created }}
         </div>
         <br>
         <a class="btn btn-success" href="{% url 'blog:index' %}">Back</a>

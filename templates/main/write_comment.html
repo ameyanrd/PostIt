@@ -4,21 +4,21 @@
 {% block content %}
 <body>
   <div class="jumbotron">
-      <div class="container">
+     <div class="container">
         <h5>Write a new comment...</h5>
-          <br>
-         <h3 style="color:red">Post : {{ post_name }}</h3>
-          <br>
+        <br>
+        <h3 style="color:red">Post : {{ post_name }}</h3>
+        <br>
         <form method="POST">
             {% csrf_token %}
             <label style="font-size:25px;"><b>Comment: </b>&nbsp</label>
             <input type="text" id="title" name="comment" size="40"><br>
             <br>
-            <div style="align:center">
+            <div>
               <button type="submit" class="btn btn-success" value="Publish">Publish</button>
             </div>
         </form>
-      </div>
+     </div>
   </div>
   </body>
 {% endblock %}

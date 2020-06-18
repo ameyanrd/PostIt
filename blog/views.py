@@ -19,21 +19,54 @@ def display_posts(request, post_no):
         post = Post.objects.get(pk=post_no)
         user = User.objects.get(username=post.post_user_id)
         user_profile = UserProfileInfo.objects.get(pk=user.pk)
-    except Post.DoesNotExist:
+    except (Post.DoesNotExist, UserProfileInfo.DoesNotExist, User.DoesNotExist):
         raise Http404("Post does not exist!")
-    return render(request, 'main/display_post.html', {'post': post, 'user': user_profile})
+    return render(request, 'main/display_post.html', {'post': post,
+                                                      'user_profile': user_profile})
 
 
 def display_comments(request, post_no):
     try:
         post = Post.objects.get(pk=post_no)
-        all_comments = PostComment.objects.all().filter(post_id=post)
+        all_comments = PostComment.objects.all().filter(post_id=post).order_by('-date_created')
         post_name = post.post_name
     except PostComment.DoesNotExist or Post.DoesNotExist:
         all_comments = None
         post_no = None
         post_name = None
-    return render(request, 'main/all_comments.html', {'all_comments': all_comments, 'post_id': post_no, 'post_name': post_name})
+    return render(request, 'main/all_comments.html', {'all_comments': all_comments,
+                                                      'post_id': post_no, 'post_name': post_name})
+
+
+def delete_comment(request, comment_no):
+    if request.user.is_authenticated:
+        try:
+            comment = PostComment.objects.get(pk=comment_no)
+            post = comment.post_id
+            user = post.post_user_id
+            user_profile = UserProfileInfo.objects.get(pk=user.id)
+        except (KeyError, PostComment.DoesNotExist, User.DoesNotExist, UserProfileInfo.DoesNotExist, Post.DoesNotExist):
+            return render(request, 'main/index.html', {'error_message': "Comment or post does not exist!", 'error': True})
+        else:
+            if comment.user_id == request.user:
+                comment.delete()
+            return render(request, 'main/display_post.html', {'post': post, 'user_profile': user_profile})
+    else:
+        redirect("blog:enter")
+
+
+def delete_post(request, post_no):
+    if request.user.is_authenticated:
+        try:
+            post = Post.objects.get(pk=post_no)
+        except (KeyError, Post.DoesNotExist):
+            return redirect("blog:index", args=({'error_message': "Post does not exist!", 'error': True}))
+        else:
+            if post.post_user_id.user == request.user:
+                post.delete()
+            return redirect('blog:my_blogs')
+    else:
+        return redirect("blog:index")
 
 
 def enter(request):
