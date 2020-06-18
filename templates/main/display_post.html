@@ -10,10 +10,13 @@
                 <h1>{{ post.post_name }}</h1>
             </div>
             {% if user == user_profile.user %}
-                <div class="col-4" style="text-align:right;">
+                <div class="col-auto" style="text-align:right;">
                     <a class="btn btn-warning" href="/comments/{{post.id}}/">View comments</a>
                 </div>
-                <div class="col-2" style="text-align:right;">
+                <div class="col-auto" style="text-align:right;">
+                    <a class="btn btn-warning" href="/edit/{{post.id}}/">Edit Post</a>
+                </div>
+                <div class="col-auto" style="text-align:right;">
                     <a class="btn btn-danger" href="/delete_post/{{post.id}}/">Delete post</a>
                 </div>
             {% else %}

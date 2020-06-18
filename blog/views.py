@@ -68,6 +68,17 @@ def delete_post(request, post_no):
     else:
         return redirect("blog:index")
 
+def edit_post(request, post_no):
+    if request.method == 'POST':
+        Post.objects.filter(pk=post_no).update(post_name=request.POST.get('title'))
+        Post.objects.filter(pk=post_no).update(post_content=request.POST.get('myeditablediv'))
+        return redirect("/" + str(post_no))
+    else:
+        if request.user.is_authenticated:
+            post = Post.objects.get(pk=post_no)
+            return render(request, 'main/edit_post.html', {'post': post})
+        else:
+            return redirect('blog:index') 
 
 def enter(request):
     if request.user.is_authenticated:
@@ -90,7 +101,7 @@ def my_blogs(request):
         my_posts = Post.objects.filter(post_user_id=request.user.id).order_by('-date_created')
         return render(request, 'main/my_blogs.html', {'all_posts': all_posts, 'my_posts': my_posts})
     else:
-        redirect("blog:index")
+        return redirect("blog:index")
 
 
 def write_post(request):
@@ -108,7 +119,7 @@ def write_post(request):
         if request.user.is_authenticated:
             return render(request, 'main/write_post.html')
         else:
-            redirect("blog:index")
+            return redirect("blog:index")
 
 
 def write_comment(request, post_no):
