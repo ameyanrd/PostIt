@@ -26,6 +26,12 @@
             {% endif %}
         </div>
         <br>
+        <div class="row">
+            <div class="col-12">
+                <h2>Tag : {{ tag.tag_name }}</h2>
+            </div>
+        </div>
+        <br>
         <h4 style="background-color: #ffffff; padding:5px;">
             {% autoescape off %}
                 {{ post.post_content }}

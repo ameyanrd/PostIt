@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Post, UserProfileInfo, PostComment
+from .models import Post, UserProfileInfo, PostComment, Tag, PostTag
 from django.contrib.auth.models import User
 
 
@@ -19,10 +19,12 @@ def display_posts(request, post_no):
         post = Post.objects.get(pk=post_no)
         user = User.objects.get(username=post.post_user_id)
         user_profile = UserProfileInfo.objects.get(pk=user.pk)
+        post_tag = PostTag.objects.get(post_id=post)
+        tag = post_tag.tag_id
     except (Post.DoesNotExist, UserProfileInfo.DoesNotExist, User.DoesNotExist):
         raise Http404("Post does not exist!")
     return render(request, 'main/display_post.html', {'post': post,
-                                                      'user_profile': user_profile})
+                                                      'user_profile': user_profile, 'tag': tag})
 
 
 def display_comments(request, post_no):
@@ -45,12 +47,14 @@ def delete_comment(request, comment_no):
             post = comment.post_id
             user = post.post_user_id
             user_profile = UserProfileInfo.objects.get(pk=user.id)
+            post_tag = PostTag.objects.get(post_id=post)
+            tag = post_tag.tag_id
         except (KeyError, PostComment.DoesNotExist, User.DoesNotExist, UserProfileInfo.DoesNotExist, Post.DoesNotExist):
             return render(request, 'main/index.html', {'error_message': "Comment or post does not exist!", 'error': True})
         else:
             if comment.user_id == request.user:
                 comment.delete()
-            return render(request, 'main/display_post.html', {'post': post, 'user_profile': user_profile})
+            return render(request, 'main/display_post.html', {'post': post, 'user_profile': user_profile, 'tag': tag})
     else:
         redirect("blog:enter")
 
@@ -68,6 +72,7 @@ def delete_post(request, post_no):
     else:
         return redirect("blog:index")
 
+
 def edit_post(request, post_no):
     if request.method == 'POST':
         Post.objects.filter(pk=post_no).update(post_name=request.POST.get('title'))
@@ -79,6 +84,7 @@ def edit_post(request, post_no):
             return render(request, 'main/edit_post.html', {'post': post})
         else:
             return redirect('blog:index') 
+
 
 def enter(request):
     if request.user.is_authenticated:
@@ -108,9 +114,17 @@ def write_post(request):
     if request.method == 'POST':
         post_form = PostForm({'post_name': request.POST.get('title'),
                               'post_user_id': request.user.pk,
-                              'post_content': request.POST.get('myeditablediv')})
+                              'post_content': request.POST.get('myeditablediv'),
+                              })
+        try:
+            new_tag = Tag.objects.get(tag_name=request.POST.get('tag'))
+        except Tag.DoesNotExist:
+            new_tag = Tag(tag_name=request.POST.get('tag'), tag_description=request.POST.get('tag'))
+            new_tag.save()
         if post_form.is_valid():
             new_post = post_form.save()
+            post_tag = PostTag(post_id=new_post, tag_id=new_tag)
+            post_tag.save()
             return redirect("/" + str(new_post.pk))
         else:
             return HttpResponse("Invalid Form!")

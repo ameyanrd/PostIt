@@ -18,11 +18,14 @@
 <body>
   <div class="jumbotron">
       <div class="container">
-        <h2>Write a new blog...</h2>
+        <h3>Write a new blog...</h3>
         <form method="POST">
             {% csrf_token %}
             <label style="font-size:30px;" for="title"><b>Title: </b>&nbsp</label>
             <input type="text" id="title" name="title"><br>
+            <br>
+            <label style="font-size:30px;" for="tag"><b>Tag: </b>&nbsp</label>
+            <input type="text" id="tag" name="tag"><br>
             <br>
             <div id="myeditablediv">Click here to edit!</div> <br/>
             <div style="align:center">
