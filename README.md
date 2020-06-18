@@ -15,7 +15,7 @@ source ~/.virtualenvs/postit/bin/activate
 4. Open the PostIt folder and migrate all files
 ```
 python manage.py makemigrations blog
-python manage.py migrate
+python manage.py migrate --run-syncdb
 ```
 
 5. Install the third-party app dj-static to load static files. (Required by Gunicorn). Note that this step is required for running step 6 as well.<br/>
